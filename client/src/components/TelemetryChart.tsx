@@ -3,7 +3,7 @@ import { TelemetryPoint } from '@/../../shared/types';
 
 interface TelemetryChartProps {
   data: TelemetryPoint[];
-  metric: 'speed' | 'fuel' | 'temperature';
+  metric: 'speed' | 'battery' | 'odometer' ;
   title: string;
 }
 
@@ -11,9 +11,9 @@ function getMetricColor(metric: string): string {
   switch (metric) {
     case 'speed':
       return '#0ea5e9';
-    case 'fuel':
+    case 'battery':
       return '#10b981';
-    case 'temperature':
+    case 'odometer':
       return '#f59e0b';
     default:
       return '#6366f1';
@@ -24,10 +24,10 @@ function getMetricLabel(metric: string): string {
   switch (metric) {
     case 'speed':
       return 'Velocidade (km/h)';
-    case 'fuel':
-      return 'Combustível (%)';
-    case 'temperature':
-      return 'Temperatura (°C)';
+    case 'battery':
+      return 'Bateria (V)';
+    case 'odometer':
+      return 'Odômetro (km)';
     default:
       return 'Métrica';
   }

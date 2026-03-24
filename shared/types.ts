@@ -1,22 +1,27 @@
 export interface Vehicle {
   id: string;
+  code: number;
   name: string;
   plate: string;
   status: 'active' | 'warning' | 'error' | 'offline';
   latitude: number;
   longitude: number;
   speed: number;
+  maxSpeed: number;
+  odometer: number;
   fuel: number;
-  temperature: number;
+  battery: number;
   lastUpdate: Date;
-  driver: string;
+  driver?: string;
+  driverPhone?: string;        // ADICIONE
+  driverEmail?: string;        // ADICIONE
   route?: string;
 }
 
 export interface Alert {
   id: string;
   vehicleId: string;
-  type: 'speed' | 'temperature' | 'fuel' | 'maintenance' | 'location';
+  type: 'speed' | 'battery' | 'odometer' | 'maintenance' | 'location';
   severity: 'low' | 'medium' | 'high';
   message: string;
   timestamp: Date;
@@ -31,4 +36,16 @@ export interface TelemetryPoint {
   longitude: number;
   fuel: number;
   temperature: number;
+}
+
+export type DriverEventType = 'hard_brake' | 'hard_acceleration' | 'sharp_curve';
+
+export interface DriverEvent {
+  id: string;
+  vehicleId: string;
+  type: DriverEventType;
+  timestamp: Date;
+  severity: 'low' | 'medium' | 'high';
+  location?: string;
+  speed?: number;
 }

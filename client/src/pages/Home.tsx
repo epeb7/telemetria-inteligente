@@ -1,54 +1,72 @@
 import { useState, useEffect } from 'react';
-import { Vehicle, Alert } from '@/../../shared/types';
-import { mockVehicles, mockAlerts } from '@/../../shared/mockData';
+import { Vehicle, Alert, DriverEvent} from '@/../../shared/types';
+import { mockVehicles, mockAlerts, mockDriverEvents} from '@/../../shared/mockData';
 import { VehicleMap } from '@/components/VehicleMap';
 import { VehicleList } from '@/components/VehicleList';
 import { TelemetryChart } from '@/components/TelemetryChart';
 import { useTelemetry } from '@/hooks/useTelemetry';
-import { AlertCircle, Truck, AlertTriangle, MapPin } from 'lucide-react';
+import { AlertCircle,AlertTriangle, MapPin, Battery, Gauge  } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DriverModal } from '@/components/DriverModal';
 import { cn } from '@/lib/utils';
+import { JSX } from 'react';
+
 
 export default function Home() {
   const [vehicles, setVehicles] = useState<Vehicle[]>(mockVehicles);
   const [alerts, setAlerts] = useState<Alert[]>(mockAlerts);
+  const [driverEvents] = useState<DriverEvent[]>(mockDriverEvents);
+  
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | undefined>(mockVehicles[0]);
+  const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
+
+  // Função para abrir o modal ao clicar no veículo
+  const handleSelectVehicle = (vehicle: Vehicle) => {
+    setSelectedVehicle(vehicle);
+    setIsDriverModalOpen(true);
+  };
 
   // Simulate real-time telemetry updates
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVehicles((prevVehicles) =>
-        prevVehicles.map((vehicle) => {
-          let newSpeed = vehicle.speed + (Math.random() - 0.5) * 10;
-          newSpeed = Math.max(0, Math.min(120, newSpeed));
+const interval = setInterval(() => {
+  setVehicles((prevVehicles) => {
+    return prevVehicles.map((vehicle) => {
+      // velocidade (varia levemente, limitada pela maxSpeed)
+      let newSpeed = vehicle.speed + (Math.random() - 0.5) * 10;
+      newSpeed = Math.max(0, Math.min(vehicle.maxSpeed, newSpeed));
 
-          let newFuel = vehicle.fuel - Math.random() * 0.5;
-          newFuel = Math.max(0, newFuel);
+      // bateria (cai lentamente)
+      let newBattery = vehicle.battery - Math.random() * 0.2;
+      newBattery = Math.max(0, newBattery);
 
-          let newTemp = vehicle.temperature + (Math.random() - 0.5) * 3;
-          newTemp = Math.max(80, Math.min(120, newTemp));
+      // odômetro (acumula conforme velocidade)
+      let newOdometer = vehicle.odometer + newSpeed * 0.05;
+      // cada tick soma ~0.05 km por unidade de velocidade
 
-          let newStatus: 'active' | 'warning' | 'error' | 'offline' = 'active';
-          if (newFuel < 10 || newTemp > 110) newStatus = 'error';
-          else if (newFuel < 25 || newTemp > 100) newStatus = 'warning';
+      // status baseado em bateria
+      let newStatus: 'active' | 'warning' | 'error' | 'offline' = 'active';
+      if (newBattery < 10) newStatus = 'error';
+      else if (newBattery < 25) newStatus = 'warning';
 
-          const latChange = (Math.random() - 0.5) * 0.001;
-          const lngChange = (Math.random() - 0.5) * 0.001;
+      // posição (simulação de movimento)
+      const latChange = (Math.random() - 0.5) * 0.001;
+      const lngChange = (Math.random() - 0.5) * 0.001;
 
-          return {
-            ...vehicle,
-            speed: Math.round(newSpeed),
-            fuel: Math.round(newFuel * 10) / 10,
-            temperature: Math.round(newTemp * 10) / 10,
-            latitude: vehicle.latitude + latChange,
-            longitude: vehicle.longitude + lngChange,
-            status: newStatus,
-            lastUpdate: new Date()
-          };
-        })
-      );
-    }, 3000);
+      return {
+        ...vehicle,
+        speed: Math.round(newSpeed),
+        battery: Math.round(newBattery * 10) / 10,
+        odometer: Math.round(newOdometer),
+        latitude: vehicle.latitude + latChange,
+        longitude: vehicle.longitude + lngChange,
+        status: newStatus,
+        lastUpdate: new Date()
+      };
+    })
+ });
+
+}, 3000)
 
     return () => clearInterval(interval);
   }, []);
@@ -167,20 +185,19 @@ export default function Home() {
             </Card>
           </div>
 
-          {/* Right panel */}
           <div className="space-y-6">
             {/* Vehicle list */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Veículos</CardTitle>
               </CardHeader>
-              <CardContent className= 'Flex flex-col gap-4 max-h-[300px] overflow--auto padding: 25px;'> {/* Adicionado max-height e overflow */}
-                <VehicleList
-                  vehicles={vehicles}
-                  selectedVehicleId={selectedVehicle?.id}
-                  onSelectVehicle={setSelectedVehicle}
-                />
-              </CardContent>
+              <CardContent className="flex-1 flex flex-col gap-4 overflow-y-auto p-6">
+                  <VehicleList
+                    vehicles={vehicles}
+                    selectedVehicleId={selectedVehicle ? String(selectedVehicle.id) : undefined}
+                    onSelectVehicle={handleSelectVehicle}
+                  />
+                </CardContent>
             </Card>
 
             {/* Alerts */}
@@ -230,6 +247,16 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* Driver Modal - Abre ao clicar no card do veículo */}
+      <DriverModal
+        vehicle={selectedVehicle || null}
+        events={driverEvents}
+        isOpen={isDriverModalOpen}
+        onClose={() => {
+          setIsDriverModalOpen(false);
+        }}
+      />
     </div>
   );
 }
@@ -267,10 +294,9 @@ function SelectedVehicleDetails({ vehicle }: { vehicle: Vehicle }) {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="info" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="info">Informações</TabsTrigger>
               <TabsTrigger value="metrics">Métricas</TabsTrigger>
-              <TabsTrigger value="telemetry">Telemetria</TabsTrigger>
             </TabsList>
 
             <TabsContent value="info" className="space-y-4">
@@ -307,16 +333,16 @@ function SelectedVehicleDetails({ vehicle }: { vehicle: Vehicle }) {
                   <p className="text-xs text-muted-foreground">km/h</p>
                 </div>
                 <div className="p-3 bg-green-50 rounded-lg">
-                  <p className="text-xs text-muted-foreground mb-1">Combustível</p>
-                  <p className="text-2xl font-bold text-green-600">{vehicle.fuel.toFixed(1)}</p>
-                  <p className="text-xs text-muted-foreground">%</p>
+                  <p className="text-xs text-muted-foreground mb-1">Bateria</p>
+                  <span className="text-2xl font-bold text-green-600">{vehicle.battery.toFixed(1)}</span>
+                  <p className="text-xs text-muted-foreground">V</p>
                 </div>
                 <div className="p-3 bg-amber-50 rounded-lg">
-                  <p className="text-xs text-muted-foreground mb-1">Temperatura</p>
+                  <p className="text-xs text-muted-foreground mb-1">Odômetro</p>
                   <p className="text-2xl font-bold text-amber-600">
-                    {vehicle.temperature.toFixed(1)}
+                    {vehicle.odometer.toFixed(1)}
                   </p>
-                  <p className="text-xs text-muted-foreground">°C</p>
+                  <p className="text-xs text-muted-foreground">km</p>
                 </div>
                 <div className="p-3 bg-purple-50 rounded-lg">
                   <p className="text-xs text-muted-foreground mb-1">Status</p>
@@ -324,26 +350,6 @@ function SelectedVehicleDetails({ vehicle }: { vehicle: Vehicle }) {
                     {vehicle.status}
                   </p>
                 </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="telemetry" className="space-y-4">
-              <div className="grid grid-cols-1 gap-4">
-                <TelemetryChart
-                  data={telemetryData}
-                  metric="speed"
-                  title="Velocidade (últimos 20 pontos)"
-                />
-                <TelemetryChart
-                  data={telemetryData}
-                  metric="fuel"
-                  title="Combustível (últimos 20 pontos)"
-                />
-                <TelemetryChart
-                  data={telemetryData}
-                  metric="temperature"
-                  title="Temperatura (últimos 20 pontos)"
-                />
               </div>
             </TabsContent>
           </Tabs>
