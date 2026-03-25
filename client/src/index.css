@@ -43,77 +43,139 @@
 }
 
 :root {
-  --primary: oklch(0.55 0.2 200);
-  --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.5 0.2 200);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --chart-1: oklch(0.55 0.2 200);
-  --chart-2: oklch(0.6 0.25 160);
-  --chart-3: oklch(0.65 0.2 120);
-  --chart-4: oklch(0.7 0.25 40);
-  --chart-5: oklch(0.55 0.25 20);
+  /* ============================================================================
+     PALETA FROTATRACK - Laranja (#e7722b) + Azul (#007da7)
+     ============================================================================ */
+  
+  /* Cores Primárias */
+  --primary: #007da7;           /* Azul FrotaTrack */
+  --primary-foreground: #ffffff;
+  --sidebar-primary: #007da7;
+  --sidebar-primary-foreground: #ffffff;
+  
+  /* Cores de Acento */
+  --accent: #e7722b;            /* Laranja FrotaTrack */
+  --accent-foreground: #ffffff;
+  
+  /* Cores de Status */
+  --status-active: #10b981;     /* Verde */
+  --status-warning: #f59e0b;    /* Âmbar */
+  --status-error: #ef4444;      /* Vermelho */
+  --status-offline: #6b7280;    /* Cinza */
+  
+  /* Cores de Evento */
+  --event-brake: #dc2626;       /* Vermelho escuro (Freada) */
+  --event-acceleration: #f59e0b; /* Âmbar (Aceleração) */
+  --event-curve: #ea580c;       /* Laranja (Curva) */
+  
+  /* Cores de Score */
+  --score-excellent: #10b981;   /* Verde */
+  --score-good: #f59e0b;        /* Âmbar */
+  --score-poor: #dc2626;        /* Vermelho */
+  
+  /* Cores de Gráfico */
+  --chart-1: #007da7;           /* Azul */
+  --chart-2: #e7722b;           /* Laranja */
+  --chart-3: #10b981;           /* Verde */
+  --chart-4: #f59e0b;           /* Âmbar */
+  --chart-5: #8b5cf6;           /* Roxo */
+  
+  /* Background e Foreground */
+  --background: #f8fafc;        /* Branco levemente azulado */
+  --foreground: #0f172a;        /* Quase preto (azul escuro) */
+  
+  /* Card */
+  --card: #ffffff;              /* Branco puro */
+  --card-foreground: #0f172a;   /* Texto escuro */
+  
+  /* Popover */
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  
+  /* Secondary */
+  --secondary: #e0f2fe;         /* Azul muito claro */
+  --secondary-foreground: #0c4a6e;
+  
+  /* Muted */
+  --muted: #e2e8f0;             /* Cinza claro */
+  --muted-foreground: #64748b;  /* Cinza médio */
+  
+  /* Border e Input */
+  --border: #cbd5e1;            /* Cinza claro */
+  --input: #f1f5f9;             /* Cinza muito claro */
+  
+  /* Ring (Focus) */
+  --ring: #007da7;              /* Azul para focus */
+  
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-accent: #e0f2fe;
+  --sidebar-accent-foreground: #0c4a6e;
+  --sidebar-border: #cbd5e1;
+  --sidebar-ring: #007da7;
+  
+  /* Destructive */
+  --destructive: #dc2626;
+  --destructive-foreground: #fecaca;
+  
+  /* Radius */
   --radius: 0.5rem;
-  --background: oklch(0.98 0.001 60);
-  --foreground: oklch(0.2 0.02 200);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 200);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 200);
-  --secondary: oklch(0.95 0.005 200);
-  --secondary-foreground: oklch(0.3 0.02 200);
-  --muted: oklch(0.9 0.005 200);
-  --muted-foreground: oklch(0.5 0.01 200);
-  --accent: oklch(0.55 0.2 200);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.6 0.25 20);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0.002 200);
-  --input: oklch(0.95 0.002 200);
-  --ring: oklch(0.55 0.2 200);
-  --sidebar: oklch(0.98 0.001 60);
-  --sidebar-foreground: oklch(0.2 0.02 200);
-  --sidebar-accent: oklch(0.55 0.2 200);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.92 0.002 200);
-  --sidebar-ring: oklch(0.55 0.2 200);
-  --status-success: oklch(0.65 0.2 120);
-  --status-warning: oklch(0.7 0.25 40);
-  --status-error: oklch(0.6 0.25 20);
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  /* ============================================================================
+     TEMA ESCURO - FrotaTrack
+     ============================================================================ */
+  
+  /* Cores Primárias */
+  --primary: #0ea5e9;           /* Azul mais claro para dark mode */
+  --primary-foreground: #0f172a;
+  --sidebar-primary: #007da7;
+  --sidebar-primary-foreground: #ffffff;
+  
+  /* Cores de Acento */
+  --accent: #ff8c42;            /* Laranja mais claro */
+  --accent-foreground: #0f172a;
+  
+  /* Background e Foreground */
+  --background: #0f172a;        /* Azul muito escuro */
+  --foreground: #f1f5f9;        /* Texto claro */
+  
+  /* Card */
+  --card: #1e293b;              /* Azul escuro */
+  --card-foreground: #f1f5f9;
+  
+  /* Popover */
+  --popover: #1e293b;
+  --popover-foreground: #f1f5f9;
+  
+  /* Secondary */
+  --secondary: #1e3a8a;         /* Azul mais escuro */
+  --secondary-foreground: #bfdbfe;
+  
+  /* Muted */
+  --muted: #334155;             /* Cinza escuro */
+  --muted-foreground: #cbd5e1;
+  
+  /* Border e Input */
+  --border: #334155;
+  --input: #1e293b;
+  
+  /* Ring (Focus) */
+  --ring: #0ea5e9;
+  
+  /* Sidebar */
+  --sidebar: #1e293b;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-accent: #1e3a8a;
+  --sidebar-accent-foreground: #bfdbfe;
+  --sidebar-border: #334155;
+  --sidebar-ring: #0ea5e9;
+  
+  /* Destructive */
+  --destructive: #f87171;
+  --destructive-foreground: #7f1d1d;
 }
 
 @layer base {
@@ -122,11 +184,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Geist', sans-serif;
-    font-weight: 600;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -143,23 +200,13 @@
 
 @layer components {
   /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
+   * Custom container utility que centra conteúdo e adiciona padding responsivo.
    */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -168,52 +215,80 @@
     min-width: 0;
   }
 
+  /* ============================================================================
+     COMPONENTES CUSTOMIZADOS - FrotaTrack
+     ============================================================================ */
+
+  /* Status Badges */
+  .status-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-active {
+    @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+  }
+
+  .status-warning {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+  }
+
+  .status-error {
+    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+  }
+
+  .status-offline {
+    @apply bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200;
+  }
+
+  /* Event Indicators */
+  .event-brake {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  .event-acceleration {
+    @apply text-amber-600 dark:text-amber-400;
+  }
+
+  .event-curve {
+    @apply text-orange-600 dark:text-orange-400;
+  }
+
+  /* Score Cards */
+  .score-excellent {
+    @apply bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300;
+  }
+
+  .score-good {
+    @apply bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300;
+  }
+
+  .score-poor {
+    @apply bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300;
+  }
+
+  /* Header Gradient */
+  .header-gradient {
+    @apply bg-gradient-to-r from-primary to-accent;
+  }
+
+  /* Card com Hover */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:border-primary;
+  }
+
+  /* Responsive Container */
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
-  }
-
-  .status-indicator {
-    @apply inline-block w-2 h-2 rounded-full;
-  }
-
-  .status-active {
-    @apply bg-[oklch(0.65_0.2_120)];
-    animation: pulse-active 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  .status-warning {
-    @apply bg-[oklch(0.7_0.25_40)];
-    animation: pulse-warning 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  .status-error {
-    @apply bg-[oklch(0.6_0.25_20)];
-    animation: pulse-error 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  @keyframes pulse-active {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
-  @keyframes pulse-warning {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
-
-  @keyframes pulse-error {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
   }
 }

@@ -1,21 +1,23 @@
 export interface Vehicle {
   id: string;
-  code: number;
-  name: string;
-  plate: string;
-  status: 'active' | 'warning' | 'error' | 'offline';
+  code: string;              // ← Código do ônibus (ex: "BUS-001")
+  name: string;              // ← Nome do ônibus
+  plate: string;             // ← Placa
+  driver: string;            // ← Nome do motorista
+  driverId?: string;         // ← ID do motorista (opcional)
+  route: string;             // ← Rota/Escala
+  
+  // Telemetria
   latitude: number;
   longitude: number;
   speed: number;
   maxSpeed: number;
-  odometer: number;
-  fuel: number;
   battery: number;
+  odometer: number;
+  
+  // Status
+  status: 'active' | 'warning' | 'error' | 'offline';
   lastUpdate: Date;
-  driver?: string;
-  driverPhone?: string;        // ADICIONE
-  driverEmail?: string;        // ADICIONE
-  route?: string;
 }
 
 export interface Alert {
@@ -43,9 +45,9 @@ export type DriverEventType = 'hard_brake' | 'hard_acceleration' | 'sharp_curve'
 export interface DriverEvent {
   id: string;
   vehicleId: string;
-  type: DriverEventType;
+  type: 'hard_brake' | 'hard_acceleration' | 'sharp_curve';
   timestamp: Date;
-  severity: 'low' | 'medium' | 'high';
-  location?: string;
-  speed?: number;
+  severity: 'high' | 'medium' | 'low';
+  location: string;
+  speed: number;
 }
