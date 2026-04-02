@@ -1,6 +1,8 @@
 // ============================================================================
 // TIPOS ENTERPRISE - Telemetria FrotaTrack
 // ============================================================================
+import { Vehicle } from './types';
+import { DriverEvent } from './types';
 
 export interface FilterState {
   searchCode: string;

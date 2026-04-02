@@ -9,7 +9,7 @@ import { MainLayout } from '@/components/MainLayout-Enterprise';
 import { ControlPanel } from '@/components/ControlPanel-Enterprise';
 import { VehicleGrid } from '@/components/VehicleGrid-Enterprise';
 import { KPIDashboard } from '@/components/KPIDashboard-Enterprise';
-import { EventsTimeline } from '@/components/EventsTimeLine-Enterprise';
+import { EventsTimeline } from '@/components/EventsTimeline-Enterprise';
 import { cn } from '@/lib/utils';
 
 // ============================================================================
@@ -54,6 +54,21 @@ interface KPIDashboardData {
   eventsByType: EventAggregate;
   topDrivers: DriverRank[];
   averageScore: number;
+}
+
+// Interface simplificada para o KPIDashboard (apenas o que ele precisa)
+interface VehicleForDashboard {
+  id: string;
+  code: string;
+  name: string;
+  driver: string;
+  status: string;
+  speed?: number;
+  battery?: number;
+  driverScore: number;
+  eventCount: EventAggregate;
+  eventsSummary: string;
+  lastUpdate?: Date;
 }
 
 interface VehicleWithScore extends Vehicle {
@@ -184,7 +199,7 @@ export default function Home() {
     isMinimized: false,
     activeTab: 'vehicles',
   });
-
+  
   // Estado de modais
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleWithScore | null>(null);
   const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
@@ -250,6 +265,23 @@ export default function Home() {
       };
     });
   }, [vehicles, driverEvents]);
+
+  // Converter para o formato que o Dashboard espera (apenas os campos necessários)
+  const vehiclesForDashboard = useMemo<VehicleForDashboard[]>(() => {
+    return vehiclesWithScore.map((vehicle) => ({
+      id: vehicle.id,
+      code: vehicle.code,
+      name: vehicle.name,
+      driver: vehicle.driver,
+      status: vehicle.status,
+      speed: vehicle.speed,
+      battery: vehicle.battery,
+      driverScore: vehicle.driverScore,
+      eventCount: vehicle.eventCount,
+      eventsSummary: vehicle.eventsSummary,
+      lastUpdate: vehicle.lastUpdate,
+    }));
+  }, [vehiclesWithScore]);
 
   // Filtrar veículos
   const filteredVehicles = useMemo(() => {
@@ -322,13 +354,19 @@ export default function Home() {
             dashboardTab={
               <KPIDashboard
                 kpis={kpis}
+                vehicles={vehiclesForDashboard}
                 onDriverClick={(driver) => {
-                  // Filtrar por motorista
                   setFilters((prev) => ({
                     ...prev,
                     searchDriver: driver.driverName,
                   }));
                   handleTabChange('vehicles');
+                }}
+                onVehicleClick={(vehicle) => {
+                  const fullVehicle = vehiclesWithScore.find(v => v.id === vehicle.id);
+                  if (fullVehicle) {
+                    handleSelectVehicle(fullVehicle);
+                  }
                 }}
               />
             }

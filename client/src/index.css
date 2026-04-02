@@ -44,226 +44,159 @@
 
 :root {
   /* ============================================================================
-     PALETA FROTATRACK - Laranja (#e7722b) + Azul (#007da7)
+     PALETA NOVA - FrotaTrack SaaS Enterprise
+     70% neutros, 20% azul petróleo, 10% laranja energético
      ============================================================================ */
-  
+
   /* Cores Primárias */
-  --primary: #007da7;           /* Azul FrotaTrack */
-  --primary-foreground: #ffffff;
-  --sidebar-primary: #007da7;
-  --sidebar-primary-foreground: #ffffff;
-  
+  --primary: #0F3D5E;              /* Azul Petróleo */
+  --primary-foreground: #ffffff;   /* Texto claro sobre azul */
+
   /* Cores de Acento */
-  --accent: #e7722b;            /* Laranja FrotaTrack */
+  --accent: #F97316;               /* Laranja Energético */
   --accent-foreground: #ffffff;
-  
+
   /* Cores de Status */
-  --status-active: #10b981;     /* Verde */
-  --status-warning: #f59e0b;    /* Âmbar */
-  --status-error: #ef4444;      /* Vermelho */
-  --status-offline: #6b7280;    /* Cinza */
-  
+  --status-active: #0F3D5E;        /* Azul para ativo */
+  --status-warning: #F97316;       /* Laranja para alerta */
+  --status-error: #DC2626;         /* Vermelho para erro */
+  --status-offline: #6B7280;       /* Cinza discreto */
+
   /* Cores de Evento */
-  --event-brake: #dc2626;       /* Vermelho escuro (Freada) */
-  --event-acceleration: #f59e0b; /* Âmbar (Aceleração) */
-  --event-curve: #ea580c;       /* Laranja (Curva) */
-  
+  --event-brake: #DC2626;          /* Vermelho escuro */
+  --event-acceleration: #F97316;   /* Laranja */
+  --event-curve: #0F3D5E;          /* Azul petróleo */
+
   /* Cores de Score */
-  --score-excellent: #10b981;   /* Verde */
-  --score-good: #f59e0b;        /* Âmbar */
-  --score-poor: #dc2626;        /* Vermelho */
-  
-  /* Cores de Gráfico */
-  --chart-1: #007da7;           /* Azul */
-  --chart-2: #e7722b;           /* Laranja */
-  --chart-3: #10b981;           /* Verde */
-  --chart-4: #f59e0b;           /* Âmbar */
-  --chart-5: #8b5cf6;           /* Roxo */
-  
+  --score-excellent: #0F3D5E;      /* Azul petróleo */
+  --score-good: #F97316;           /* Laranja */
+  --score-poor: #DC2626;           /* Vermelho */
+
+  /* Gráficos */
+  --chart-1: #0F3D5E;              /* Azul */
+  --chart-2: #F97316;              /* Laranja */
+  --chart-3: #E2E8F0;              /* Cinza neutro */
+  --chart-4: #DC2626;              /* Vermelho */
+  --chart-5: #94A3B8;              /* Cinza médio */
+
   /* Background e Foreground */
-  --background: #f8fafc;        /* Branco levemente azulado */
-  --foreground: #0f172a;        /* Quase preto (azul escuro) */
-  
+  --background: #F9FAFB;           /* Branco suave */
+  --foreground: #111827;           /* Preto suave */
+
   /* Card */
-  --card: #ffffff;              /* Branco puro */
-  --card-foreground: #0f172a;   /* Texto escuro */
-  
+  --card: #ffffff;
+  --card-foreground: #111827;
+
   /* Popover */
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  
+  --popover-foreground: #111827;
+
   /* Secondary */
-  --secondary: #e0f2fe;         /* Azul muito claro */
-  --secondary-foreground: #0c4a6e;
-  
+  --secondary: #E2E8F0;            /* Cinza claro */
+  --secondary-foreground: #111827;
+
   /* Muted */
-  --muted: #e2e8f0;             /* Cinza claro */
-  --muted-foreground: #64748b;  /* Cinza médio */
-  
+  --muted: #9CA3AF;                /* Cinza médio */
+  --muted-foreground: #6B7280;
+
   /* Border e Input */
-  --border: #cbd5e1;            /* Cinza claro */
-  --input: #f1f5f9;             /* Cinza muito claro */
-  
+  --border: #E2E8F0;               /* Bordas discretas */
+  --input: #F3F4F6;
+
   /* Ring (Focus) */
-  --ring: #007da7;              /* Azul para focus */
-  
+  --ring: #0F3D5E;                 /* Azul petróleo */
+
   /* Sidebar */
   --sidebar: #ffffff;
-  --sidebar-foreground: #0f172a;
-  --sidebar-accent: #e0f2fe;
-  --sidebar-accent-foreground: #0c4a6e;
-  --sidebar-border: #cbd5e1;
-  --sidebar-ring: #007da7;
-  
+  --sidebar-foreground: #111827;
+  --sidebar-accent: #F97316;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #E2E8F0;
+  --sidebar-ring: #0F3D5E;
+
   /* Destructive */
-  --destructive: #dc2626;
-  --destructive-foreground: #fecaca;
-  
+  --destructive: #DC2626;
+  --destructive-foreground: #FEE2E2;
+
   /* Radius */
   --radius: 0.5rem;
 }
 
 .dark {
   /* ============================================================================
-     TEMA ESCURO - FrotaTrack
+     TEMA ESCURO - FrotaTrack SaaS Enterprise
      ============================================================================ */
-  
-  /* Cores Primárias */
-  --primary: #0ea5e9;           /* Azul mais claro para dark mode */
-  --primary-foreground: #0f172a;
-  --sidebar-primary: #007da7;
-  --sidebar-primary-foreground: #ffffff;
-  
-  /* Cores de Acento */
-  --accent: #ff8c42;            /* Laranja mais claro */
-  --accent-foreground: #0f172a;
-  
-  /* Background e Foreground */
-  --background: #0f172a;        /* Azul muito escuro */
-  --foreground: #f1f5f9;        /* Texto claro */
-  
-  /* Card */
-  --card: #1e293b;              /* Azul escuro */
-  --card-foreground: #f1f5f9;
-  
-  /* Popover */
-  --popover: #1e293b;
-  --popover-foreground: #f1f5f9;
-  
-  /* Secondary */
-  --secondary: #1e3a8a;         /* Azul mais escuro */
-  --secondary-foreground: #bfdbfe;
-  
-  /* Muted */
-  --muted: #334155;             /* Cinza escuro */
-  --muted-foreground: #cbd5e1;
-  
-  /* Border e Input */
-  --border: #334155;
-  --input: #1e293b;
-  
-  /* Ring (Focus) */
-  --ring: #0ea5e9;
-  
-  /* Sidebar */
-  --sidebar: #1e293b;
-  --sidebar-foreground: #f1f5f9;
-  --sidebar-accent: #1e3a8a;
-  --sidebar-accent-foreground: #bfdbfe;
-  --sidebar-border: #334155;
-  --sidebar-ring: #0ea5e9;
-  
-  /* Destructive */
-  --destructive: #f87171;
-  --destructive-foreground: #7f1d1d;
-}
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+  --primary: #0F3D5E;
+  --primary-foreground: #F9FAFB;
+
+  --accent: #F97316;
+  --accent-foreground: #F9FAFB;
+
+  --background: #1F2937;           /* Cinza muito escuro */
+  --foreground: #F9FAFB;           /* Texto claro */
+
+  --card: #111827;
+  --card-foreground: #F9FAFB;
+
+  --popover: #111827;
+  --popover-foreground: #F9FAFB;
+
+  --secondary: #374151;
+  --secondary-foreground: #F9FAFB;
+
+  --muted: #6B7280;
+  --muted-foreground: #9CA3AF;
+
+  --border: #374151;
+  --input: #1F2937;
+
+  --ring: #F97316;
+
+  --sidebar: #111827;
+  --sidebar-foreground: #F9FAFB;
+  --sidebar-accent: #F97316;
+  --sidebar-accent-foreground: #F9FAFB;
+  --sidebar-border: #374151;
+  --sidebar-ring: #F97316;
+
+  --destructive: #DC2626;
+  --destructive-foreground: #FEE2E2;
 }
 
 @layer components {
-  /**
-   * Custom container utility que centra conteúdo e adiciona padding responsivo.
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  /* ============================================================================
-     COMPONENTES CUSTOMIZADOS - FrotaTrack
-     ============================================================================ */
-
   /* Status Badges */
   .status-badge {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium;
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium shadow-sm;
   }
 
   .status-active {
-    @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+    @apply bg-primary/10 text-primary ring-1 ring-primary/30;
   }
 
   .status-warning {
-    @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+    @apply bg-accent/10 text-accent ring-1 ring-accent/30;
   }
 
   .status-error {
-    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+    @apply bg-red-100 text-red-700 ring-1 ring-red-200;
   }
 
   .status-offline {
-    @apply bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200;
-  }
-
-  /* Event Indicators */
-  .event-brake {
-    @apply text-red-600 dark:text-red-400;
-  }
-
-  .event-acceleration {
-    @apply text-amber-600 dark:text-amber-400;
-  }
-
-  .event-curve {
-    @apply text-orange-600 dark:text-orange-400;
+    @apply bg-gray-100 text-gray-700 ring-1 ring-gray-200;
   }
 
   /* Score Cards */
   .score-excellent {
-    @apply bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300;
+    @apply bg-primary/10 text-primary font-semibold;
   }
 
   .score-good {
-    @apply bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300;
+    @apply bg-accent/10 text-accent font-semibold;
   }
 
   .score-poor {
-    @apply bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300;
+    @apply bg-red-100 text-red-700 font-semibold;
   }
 
   /* Header Gradient */
@@ -273,9 +206,9 @@
 
   /* Card com Hover */
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:border-primary;
+    @apply transition-all duration-300 hover:shadow-lg hover:border-primary/50;
   }
-
+}
   /* Responsive Container */
   @media (min-width: 640px) {
     .container {
@@ -291,4 +224,4 @@
       max-width: 1280px;
     }
   }
-}
+

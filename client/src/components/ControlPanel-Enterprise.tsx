@@ -1,22 +1,16 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Truck, BarChart3, AlertCircle } from 'lucide-react';
+import { Bus, BarChart3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ControlPanelProps {
   vehiclesTab: React.ReactNode;
   dashboardTab: React.ReactNode;
-  eventsTab: React.ReactNode;
+  eventsTab: React.ReactNode; // mantido para não quebrar dependências
   activeTab: 'vehicles' | 'dashboard' | 'events';
   onTabChange: (tab: 'vehicles' | 'dashboard' | 'events') => void;
 }
 
-/**
- * Painel de controle com 3 abas principais:
- * 1. Veículos - Grid dinâmico com filtros
- * 2. Dashboard - KPIs e ranking de motoristas
- * 3. Eventos - Timeline de eventos em tempo real
- */
- export function ControlPanel({
+export function ControlPanel({
   vehiclesTab,
   dashboardTab,
   eventsTab,
@@ -25,48 +19,66 @@ interface ControlPanelProps {
 }: ControlPanelProps) {
   return (
     <Tabs
-      value={activeTab}
+      value={activeTab === 'events' ? 'dashboard' : activeTab}
       onValueChange={(value) => onTabChange(value as any)}
       className="flex flex-col h-full"
     >
       {/* Tabs List */}
-      <TabsList className="grid w-full grid-cols-3 rounded-none border-b border-border bg-secondary/30 p-0 h-auto">
+      <TabsList
+        className="
+          grid w-full grid-cols-2
+          bg-gradient-to-r from-slate-50 via-white to-slate-50
+          shadow-sm
+          p-2
+        "
+      >
         <TabsTrigger
           value="vehicles"
-          className={cn(
-            'rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent',
-            'flex items-center justify-center gap-2 py-3'
-          )}
+          className={cn(`
+            relative
+            flex items-center justify-center gap-2
+            py-3 rounded-xl
+            text-slate-600 font-medium text-sm
+            transition-all duration-300
+
+            hover:bg-slate-100
+            hover:text-slate-800
+
+            data-[state=active]:bg-white
+            data-[state=active]:text-[#0F3D5E]
+            data-[state=active]:shadow-md
+            data-[state=active]:font-semibold
+          `)}
         >
-          <Truck className="w-4 h-4" />
-          <span className="hidden sm:inline text-sm">Veículos</span>
+          <Bus className="w-4 h-4" />
+          <span className="hidden sm:inline">Veículos</span>
         </TabsTrigger>
 
         <TabsTrigger
           value="dashboard"
-          className={cn(
-            'rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent',
-            'flex items-center justify-center gap-2 py-3'
-          )}
+          className={cn(`
+            relative
+            flex items-center justify-center gap-2
+            py-3 rounded-xl
+            text-slate-600 font-medium text-sm
+            transition-all duration-300
+
+            hover:bg-slate-100
+            hover:text-slate-800
+
+            data-[state=active]:bg-white
+            data-[state=active]:text-[#0F3D5E]
+            data-[state=active]:shadow-md
+            data-[state=active]:font-semibold
+          `)}
         >
           <BarChart3 className="w-4 h-4" />
-          <span className="hidden sm:inline text-sm">Dashboard</span>
-        </TabsTrigger>
-
-        <TabsTrigger
-          value="events"
-          className={cn(
-            'rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent',
-            'flex items-center justify-center gap-2 py-3',
-          )}
-        >
-          <AlertCircle className="w-4 h-4" />
-          <span className="hidden sm:inline text-sm">Eventos</span>
+          <span className="hidden sm:inline">Dashboard</span>
         </TabsTrigger>
       </TabsList>
 
       {/* Tabs Content */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden bg-white">
         <TabsContent
           value="vehicles"
           className="h-full overflow-hidden data-[state=inactive]:hidden"
@@ -78,14 +90,13 @@ interface ControlPanelProps {
           value="dashboard"
           className="h-full overflow-y-auto data-[state=inactive]:hidden"
         >
+          {/* Dashboard principal */}
           {dashboardTab}
-        </TabsContent>
 
-        <TabsContent
-          value="events"
-          className="h-full overflow-y-auto data-[state=inactive]:hidden"
-        >
-          {eventsTab}
+          {/* Eventos agora incorporados no dashboard */}
+          <div className="mt-8">
+            {eventsTab}
+          </div>
         </TabsContent>
       </div>
     </Tabs>

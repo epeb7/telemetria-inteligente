@@ -66,213 +66,269 @@ export function Header({ filters, onFilterChange, kpis }: HeaderProps) {
     filters.statusFilter !== 'all' || 
     filters.eventFilter !== 'all';
 
-  return (
-    <header className="border-b border-border bg-card shadow-sm sticky top-0 z-40">
-      {/* Top Row - Logo e Status Global */}
-      <div className="px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
-          {/* Logo e Título */}
-          <div className="flex items-center gap-3 flex-1">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">FT</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-card-foreground">FrotaTrack</h1>
-                <p className="text-xs text-muted-foreground">Telemetria Inteligente</p>
-              </div>
+ return (
+  <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/90 border-b border-slate-200 shadow-[0_4px_20px_rgba(15,61,94,0.06)]">
+
+    {/* Top Row */}
+    <div className="px-6 py-5 lg:px-10">
+      <div className="flex items-center justify-between gap-8">
+
+        {/* Logo */}
+        <div className="flex items-center gap-4 flex-1">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <img 
+                src="/Images/frotatrack.png" 
+                alt="FrotaTrack Logo" 
+                className="h-11 w-auto object-contain"
+              />
+              <div className="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-[#0F3D5E] via-[#F97316] to-transparent" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-[#0F3D5E]">
+                FrotaTrack
+              </h1>
+              <p className="text-xs uppercase tracking-wider text-slate-400">
+                Telemetria Inteligente
+              </p>
             </div>
           </div>
-
-          {/* Status Global - Desktop */}
-          <div className="hidden md:flex items-center gap-6">
-            {/* Veículos Ativos */}
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-1">Ativos</p>
-              <p className="text-2xl font-bold text-green-600">{kpis.activeCount}</p>
-            </div>
-
-            {/* Avisos */}
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-1">Avisos</p>
-              <p className="text-2xl font-bold text-amber-600">{kpis.warningCount}</p>
-            </div>
-
-            {/* Erros */}
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-1">Erros</p>
-              <p className="text-2xl font-bold text-red-600">{kpis.errorCount}</p>
-            </div>
-
-            {/* Score Médio */}
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-1">Score</p>
-              <p className="text-2xl font-bold text-blue-600">{kpis.averageScore}</p>
-            </div>
-          </div>
-
-          {/* Toggle Filtros */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="gap-2"
-          >
-            <Filter className="w-4 h-4" />
-            <span className="hidden sm:inline">Filtros</span>
-            {hasActiveFilters && (
-              <span className="ml-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                {[
-                  filters.searchCode,
-                  filters.searchDriver,
-                  filters.searchScale,
-                  filters.statusFilter !== 'all' ? '1' : '',
-                  filters.eventFilter !== 'all' ? '1' : '',
-                ].filter(Boolean).length}
-              </span>
-            )}
-          </Button>
         </div>
-      </div>
 
-      {/* Filtros Expandidos */}
-      {isExpanded && (
-        <div className="border-t border-border bg-secondary/30 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-            {/* Busca por Código */}
-            <div>
-              <label className="text-xs font-semibold text-muted-foreground mb-1 block">
-                Código do Ônibus
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Ex: BUS-001"
-                  value={filters.searchCode}
-                  onChange={(e) => handleFilterChange('searchCode', e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-            </div>
+        {/* KPIs Desktop */}
+        <div className="hidden md:flex items-center gap-10">
 
-            {/* Busca por Motorista */}
-            <div>
-              <label className="text-xs font-semibold text-muted-foreground mb-1 block">
-                Motorista
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Ex: João Silva"
-                  value={filters.searchDriver}
-                  onChange={(e) => handleFilterChange('searchDriver', e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-            </div>
-
-            {/* Busca por Escala */}
-            <div>
-              <label className="text-xs font-semibold text-muted-foreground mb-1 block">
-                Escala/Rota
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Ex: Manhã"
-                  value={filters.searchScale}
-                  onChange={(e) => handleFilterChange('searchScale', e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-            </div>
-
-            {/* Filtro de Status */}
-            <div>
-              <label className="text-xs font-semibold text-muted-foreground mb-1 block">
-                Status
-              </label>
-              <Select
-                value={filters.statusFilter}
-                onValueChange={(value) =>
-                  handleFilterChange('statusFilter', value as any)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="active">Ativos</SelectItem>
-                  <SelectItem value="warning">Avisos</SelectItem>
-                  <SelectItem value="error">Erros</SelectItem>
-                  <SelectItem value="offline">Offline</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Filtro de Eventos */}
-            <div>
-              <label className="text-xs font-semibold text-muted-foreground mb-1 block">
-                Eventos
-              </label>
-              <Select
-                value={filters.eventFilter}
-                onValueChange={(value) =>
-                  handleFilterChange('eventFilter', value as any)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="hard_brake">Freada Brusca</SelectItem>
-                  <SelectItem value="hard_acceleration">Aceleração Brusca</SelectItem>
-                  <SelectItem value="sharp_curve">Curva Acentuada</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="text-center">
+            <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
+              Ativos
+            </p>
+            <p className="text-2xl font-bold text-emerald-600">
+              {kpis.activeCount}
+            </p>
           </div>
 
-          {/* Botão Limpar Filtros */}
+          <div className="text-center">
+            <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
+              Avisos
+            </p>
+            <p className="text-2xl font-bold text-amber-500">
+              {kpis.warningCount}
+            </p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
+              Erros
+            </p>
+            <p className="text-2xl font-bold text-red-500">
+              {kpis.errorCount}
+            </p>
+          </div>
+
+          <div className="pl-6 border-l border-slate-200 text-center">
+            <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
+              Score Médio
+            </p>
+            <p className="text-2xl font-bold text-[#0F3D5E]">
+              {kpis.averageScore}
+            </p>
+          </div>
+        </div>
+
+        {/* Botão Filtros */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="
+            gap-2 
+            border-slate-300 
+            text-[#0F3D5E] 
+            hover:bg-[#0F3D5E] 
+            hover:text-white 
+            hover:border-[#0F3D5E] 
+            transition-all
+          "
+        >
+          <Filter className="w-4 h-4" />
+          <span className="hidden sm:inline">Filtros</span>
+
           {hasActiveFilters && (
-            <div className="mt-3 flex justify-end">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleClearFilters}
-                className="gap-2 text-muted-foreground hover:text-foreground"
-              >
-                <X className="w-4 h-4" />
-                Limpar Filtros
-              </Button>
-            </div>
+            <span className="
+              ml-1 px-2 py-0.5 
+              bg-[#F97316] 
+              text-white 
+              rounded-full 
+              text-xs 
+              font-semibold
+            ">
+              {[
+                filters.searchCode,
+                filters.searchDriver,
+                filters.searchScale,
+                filters.statusFilter !== 'all' ? '1' : '',
+                filters.eventFilter !== 'all' ? '1' : '',
+              ].filter(Boolean).length}
+            </span>
           )}
-        </div>
-      )}
+        </Button>
 
-      {/* Status Global - Mobile */}
-      <div className="md:hidden border-t border-border px-4 py-3 sm:px-6">
-        <div className="grid grid-cols-4 gap-2 text-center text-xs">
+      </div>
+    </div>
+
+    {/* Filtros Expandidos */}
+    {isExpanded && (
+      <div className="
+        border-t border-slate-200 
+        bg-white 
+        px-6 py-8 lg:px-10 
+        shadow-inner
+      ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+
+          {/* Código */}
           <div>
-            <p className="text-muted-foreground mb-1">Ativos</p>
-            <p className="font-bold text-green-600">{kpis.activeCount}</p>
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2 block">
+              Código do Ônibus
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                placeholder="Ex: BUS-001"
+                value={filters.searchCode}
+                onChange={(e) => handleFilterChange('searchCode', e.target.value)}
+                className="pl-9 focus:ring-2 focus:ring-[#0F3D5E]/20 focus:border-[#0F3D5E]"
+              />
+            </div>
           </div>
+
+          {/* Motorista */}
           <div>
-            <p className="text-muted-foreground mb-1">Avisos</p>
-            <p className="font-bold text-amber-600">{kpis.warningCount}</p>
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2 block">
+              Motorista
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                placeholder="Ex: João Silva"
+                value={filters.searchDriver}
+                onChange={(e) => handleFilterChange('searchDriver', e.target.value)}
+                className="pl-9 focus:ring-2 focus:ring-[#0F3D5E]/20 focus:border-[#0F3D5E]"
+              />
+            </div>
           </div>
+
+          {/* Escala */}
           <div>
-            <p className="text-muted-foreground mb-1">Erros</p>
-            <p className="font-bold text-red-600">{kpis.errorCount}</p>
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2 block">
+              Escala/Rota
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                placeholder="Ex: Manhã"
+                value={filters.searchScale}
+                onChange={(e) => handleFilterChange('searchScale', e.target.value)}
+                className="pl-9 focus:ring-2 focus:ring-[#0F3D5E]/20 focus:border-[#0F3D5E]"
+              />
+            </div>
           </div>
+
+          {/* Status */}
           <div>
-            <p className="text-muted-foreground mb-1">Score</p>
-            <p className="font-bold text-blue-600">{kpis.averageScore}</p>
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2 block">
+              Status
+            </label>
+            <Select
+              value={filters.statusFilter}
+              onValueChange={(value) =>
+                handleFilterChange('statusFilter', value as any)
+              }
+            >
+              <SelectTrigger className="focus:ring-2 focus:ring-[#0F3D5E]/20 focus:border-[#0F3D5E]" />
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="active">Ativos</SelectItem>
+                <SelectItem value="warning">Avisos</SelectItem>
+                <SelectItem value="error">Erros</SelectItem>
+                <SelectItem value="offline">Offline</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Eventos */}
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2 block">
+              Eventos
+            </label>
+            <Select
+              value={filters.eventFilter}
+              onValueChange={(value) =>
+                handleFilterChange('eventFilter', value as any)
+              }
+            >
+              <SelectTrigger className="focus:ring-2 focus:ring-[#0F3D5E]/20 focus:border-[#0F3D5E]" />
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="hard_brake">Freada Brusca</SelectItem>
+                <SelectItem value="hard_acceleration">Aceleração Brusca</SelectItem>
+                <SelectItem value="sharp_curve">Curva Acentuada</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
+
+        {hasActiveFilters && (
+          <div className="mt-6 flex justify-end">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleClearFilters}
+              className="text-slate-500 hover:text-red-500 transition-colors"
+            >
+              <X className="w-4 h-4 mr-2" />
+              Limpar Filtros
+            </Button>
+          </div>
+        )}
       </div>
-    </header>
-  );
+    )}
+
+    {/* Mobile KPIs */}
+    <div className="md:hidden border-t border-slate-200 px-4 py-4 bg-white">
+      <div className="grid grid-cols-4 gap-4 text-center text-xs">
+
+        <div>
+          <p className="text-slate-400 mb-1">Ativos</p>
+          <p className="font-bold text-emerald-600">
+            {kpis.activeCount}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-slate-400 mb-1">Avisos</p>
+          <p className="font-bold text-amber-500">
+            {kpis.warningCount}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-slate-400 mb-1">Erros</p>
+          <p className="font-bold text-red-500">
+            {kpis.errorCount}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-slate-400 mb-1">Score</p>
+          <p className="font-bold text-[#0F3D5E]">
+            {kpis.averageScore}
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </header>
+);
 }

@@ -1,5 +1,5 @@
 import { Vehicle } from '@/../../shared/types';
-import { Gauge,Clock, Battery, Bus } from 'lucide-react';
+import { Gauge,Clock, Battery, User ,Bus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { JSX } from 'react';
 
@@ -41,55 +41,98 @@ function formatTime(date: Date): string {
 }
 
 export function VehicleCard({ vehicle, selected, onClick }: VehicleCardProps): JSX.Element {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'w-full min-h-[180px] text-left p-5 rounded-xl border transition-all duration-200',
-        'hover:shadow-lg hover:border-blue-500/50',
-        selected
-          ? 'bg-blue-50 border-blue-500 shadow-md'
-          : 'bg-white border-gray-200 hover:bg-orange-50'
-      )}
-    >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-base text-gray-900 truncate">
-            <Bus className='flex items-center gap-2 text-black-600'></Bus>
-            {vehicle.name}
-          </h3>
-          <p className="text-sm text-gray-500">{vehicle.plate}</p>
-        </div>
-        <div className={cn('flex items-center gap-1.5', getStatusColor(vehicle.status))}>
-          <div className={cn('status-indicator', `status-${vehicle.status}`)} />
-          <span className="text-sm font-medium">{getStatusLabel(vehicle.status)}</span>
+ return (
+  <button
+    onClick={onClick}
+    className={cn(
+      'w-full min-h-[200px] text-left p-6 rounded-2xl border relative overflow-hidden transition-all duration-300 group',
+      selected
+        ? 'bg-gradient-to-br from-[#0F3D5E]/5 to-[#F97316]/5 border-[#0F3D5E]/40 shadow-[0_10px_35px_rgba(15,61,94,0.12)]'
+        : 'bg-white border-slate-200 hover:border-[#0F3D5E]/40 hover:shadow-[0_8px_30px_rgba(15,61,94,0.08)] hover:-translate-y-1'
+    )}
+  >
+    {/* Header */}
+    <div className="flex items-start justify-between mb-6">
+      <div className="flex-1 min-w-0">
+        <h3 className="text-lg font-semibold text-[#0F3D5E] flex items-center gap-2 truncate">
+          <Bus className="w-5 h-5 text-[#F97316]" />
+          {vehicle.name}
+        </h3>
+        <p className="text-sm text-slate-500">{vehicle.plate}</p>
+      </div>
+
+      <div
+        className={cn(
+          'px-3 py-1 rounded-full text-xs font-semibold tracking-wide',
+          vehicle.status === 'active'
+            ? 'bg-emerald-50 text-emerald-600'
+            : vehicle.status === 'warning'
+            ? 'bg-amber-50 text-amber-600'
+            : vehicle.status === 'error'
+            ? 'bg-red-50 text-red-600'
+            : 'bg-slate-100 text-slate-500'
+        )}
+      >
+        {getStatusLabel(vehicle.status)}
+      </div>
+    </div>
+
+    {/* Métricas reorganizadas */}
+    <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
+
+      <div className="flex flex-col">
+        <span className="text-xs text-slate-400 uppercase tracking-wide">
+          Velocidade
+        </span>
+        <div className="flex items-center gap-2 text-[#0F3D5E] font-semibold">
+          <Gauge className="w-4 h-4 text-[#F97316]" />
+          {vehicle.speed} km/h
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 text-sm">
-        <div className="flex items-center gap-2 text-gray-600">
-          <Gauge className="w-4 h-4 text-blue-600" />
-          <span>{vehicle.speed} km/h</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-600">
-          <Gauge className="w-4 h-4 text-orange-500" />
-          <span>{vehicle.odometer} km</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-600">
-          <Battery className="w-4 h-4 text-red-500" />
-          <span>{vehicle.battery}v</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-600">
-          <Clock className="w-4 h-4 text-purple-500" />
-          <span>{formatTime(vehicle.lastUpdate)}</span>
+      <div className="flex flex-col">
+        <span className="text-xs text-slate-400 uppercase tracking-wide">
+          Odômetro
+        </span>
+        <div className="flex items-center gap-2 text-[#0F3D5E] font-semibold">
+          <Gauge className="w-4 h-4 text-[#F97316]" />
+          {vehicle.odometer} km
         </div>
       </div>
 
-      {vehicle.driver && (
-        <p className="text-sm text-gray-600 mt-3">
-          Motorista: <span className="font-medium text-orange-600">{vehicle.driver}</span>
-        </p>
-      )}
-    </button>
-  );
+      <div className="flex flex-col">
+        <span className="text-xs text-slate-400 uppercase tracking-wide">
+          Bateria
+        </span>
+        <div className="flex items-center gap-2 text-[#0F3D5E] font-semibold">
+          <Battery className="w-4 h-4 text-[#F97316]" />
+          {vehicle.battery}v
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <span className="text-xs text-slate-400 uppercase tracking-wide">
+          Atualização
+        </span>
+        <div className="flex items-center gap-2 text-[#0F3D5E] font-semibold">
+          <Clock className="w-4 h-4 text-[#F97316]" />
+          {formatTime(vehicle.lastUpdate)}
+        </div>
+      </div>
+    </div>
+
+    {/* Driver */}
+    {vehicle.driver && (
+      <div className="mt-6 pt-4 border-t border-slate-100 text-sm">
+        <span className="text-slate-400">Motorista:</span>{' '}
+        <span className="font-semibold text-[#0F3D5E]">
+          {vehicle.driver}
+        </span>
+      </div>
+    )}
+
+    {/* Linha inferior de identidade visual */}
+    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#0F3D5E] via-[#F97316] to-transparent opacity-70" />
+  </button>
+);
 }

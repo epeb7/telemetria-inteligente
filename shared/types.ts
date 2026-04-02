@@ -14,6 +14,8 @@ export interface Vehicle {
   maxSpeed: number;
   battery: number;
   odometer: number;
+  driverPhone: string;
+  driverEmail: string;
   
   // Status
   status: 'active' | 'warning' | 'error' | 'offline';

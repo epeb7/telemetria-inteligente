@@ -61,7 +61,7 @@ export function VehicleList({
   onSelectVehicle,
 }: VehicleListProps): JSX.Element {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-2 px-2 py-4 overflow-y-auto h-full max-h-[400px]">
+    <div className="grid grid-cols-1 scrollbar sm:grid-cols-3 lg:grid-cols-3 gap-2 px-2 py-4 overflow-y-auto h-full max-h-[400px]">
       {vehicles.map((vehicle) => (
         <VehicleCard
           key={vehicle.id}

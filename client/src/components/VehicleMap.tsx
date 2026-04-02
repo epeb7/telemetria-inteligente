@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Vehicle } from '@/../../shared/types';
 import { cn } from '@/lib/utils';
+import { MapView } from './Map';
 
 interface VehicleMapProps {
   vehicles: Vehicle[];
@@ -139,7 +140,10 @@ export function VehicleMap({ vehicles, selectedVehicle, onVehicleSelect }: Vehic
                   <div className="font-semibold">{vehicle.name}</div>
                   <div className="text-muted-foreground text-xs">{vehicle.plate}</div>
                   <div className="text-muted-foreground text-xs mt-1">
-                    {vehicle.speed} km/h • {vehicle.fuel.toFixed(1)}%
+                    {vehicle.speed} km/h
+                  </div>
+                  <div>
+                    odometer: {vehicle.odometer} km
                   </div>
                 </div>
               )}
@@ -183,7 +187,6 @@ export function VehicleMap({ vehicles, selectedVehicle, onVehicleSelect }: Vehic
           <span>
             Selecionado: <strong>{selectedVehicle.name}</strong> • Velocidade:{' '}
             <strong>{selectedVehicle.speed} km/h</strong> • Combustível:{' '}
-            <strong>{selectedVehicle.fuel.toFixed(1)}%</strong>
           </span>
         ) : (
           <span>Clique em um veículo no mapa para ver detalhes</span>
