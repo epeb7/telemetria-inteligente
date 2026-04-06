@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Vehicle, DriverEvent } from '@/../../shared/types';
 import {
   Dialog,
@@ -10,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { TrendingDown, Zap, AlertCircle, Phone, Mail, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { EventDetailModal } from '@/components/EventDetailModal';
+import { TermoAvisoMotoristaPDF } from './TermoAvisoMotoristaPDF';
 
 interface DriverModalProps {
   vehicle: Vehicle | null;
@@ -18,6 +20,7 @@ interface DriverModalProps {
   onClose: () => void;
 }
 
+// Funções auxiliares (já existentes, mantidas)
 function getEventIcon(type: string) {
   switch (type) {
     case 'hard_brake':
@@ -99,6 +102,20 @@ function formatDate(date: Date): string {
   });
 }
 
+// Função para calcular score do motorista
+function calculateDriverScore(events: DriverEvent[]): number {
+  const eventCounts = {
+    hardBrake: events.filter(e => e.type === 'hard_brake').length,
+    hardAcceleration: events.filter(e => e.type === 'hard_acceleration').length,
+    sharpCurve: events.filter(e => e.type === 'sharp_curve').length,
+  };
+  const weightedScore =
+    eventCounts.hardBrake * 5 +
+    eventCounts.hardAcceleration * 3 +
+    eventCounts.sharpCurve * 2;
+  return Math.max(0, 100 - Math.min(100, weightedScore));
+}
+
 export function DriverModal({
   vehicle,
   events,
@@ -107,6 +124,7 @@ export function DriverModal({
 }: DriverModalProps) {
   const [selectedEvent, setSelectedEvent] = useState<DriverEvent | null>(null);
   const [isEventDetailOpen, setIsEventDetailOpen] = useState(false);
+  const [gestorNome, setGestorNome] = useState('');
 
   if (!vehicle) return null;
 
@@ -118,6 +136,17 @@ export function DriverModal({
     hard_brake: vehicleEvents.filter((e) => e.type === 'hard_brake').length,
     hard_acceleration: vehicleEvents.filter((e) => e.type === 'hard_acceleration').length,
     sharp_curve: vehicleEvents.filter((e) => e.type === 'sharp_curve').length,
+  };
+
+  // Calcular score e status
+  const score = calculateDriverScore(vehicleEvents);
+  const status = score < 60 ? 'Crítico - Sob Aviso' : score < 80 ? 'Atenção' : 'Bom';
+
+  // Dados do motorista
+  const driver = {
+    nome: vehicle.driver,
+    telefone: '(11) 98765-4321', // Se vier do mock futuramente, use dado real
+    email: 'motorista@email.com',
   };
 
   const handleEventClick = (event: DriverEvent) => {
@@ -163,14 +192,14 @@ export function DriverModal({
                       <Phone className="w-4 h-4 text-muted-foreground" />
                       <div>
                         <p className="text-xs text-muted-foreground">Telefone</p>
-                        <p className="text-sm font-semibold">(11) 98765-4321</p>
+                        <p className="text-sm font-semibold">{driver.telefone}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4 text-muted-foreground" />
                       <div>
                         <p className="text-xs text-muted-foreground">Email</p>
-                        <p className="text-sm font-semibold">motorista@email.com</p>
+                        <p className="text-sm font-semibold">{driver.email}</p>
                       </div>
                     </div>
                   </div>
@@ -264,6 +293,53 @@ export function DriverModal({
                 </div>
               </CardContent>
             </Card>
+
+            {/* NOVO: Campo para nome do diretor */}
+            <div className="mt-4">
+              <label className="text-sm font-medium text-gray-700">Nome do Diretor/Gestor (para assinatura):</label>
+              <input
+                type="text"
+                value={gestorNome}
+                onChange={(e) => setGestorNome(e.target.value)}
+                className="w-full border border-gray-300 rounded-md p-2 mt-1 text-sm"
+                placeholder="Digite o nome completo do diretor"
+              />
+            </div>
+
+            {/* NOVO: Botão para gerar PDF do termo de aviso */}
+            <div className="flex justify-end mt-4">
+              <PDFDownloadLink
+                document={
+                  <TermoAvisoMotoristaPDF
+                    vehicle={vehicle}
+                    driver={{
+                      nome: vehicle.driver,
+                      telefone: driver.telefone,
+                      email: driver.email,
+                    }}
+                    events={vehicleEvents}
+                    summary={{
+                      totalEvents: vehicleEvents.length,
+                      score,
+                      status,
+                    }}
+                    gestorNome={gestorNome.trim() || '_________________________'}
+                    motoristaNome={vehicle.driver}
+                    dataDocumento={new Date().toLocaleDateString('pt-BR')}
+                  />
+                }
+                fileName={`termo_aviso_${vehicle.driver}_${new Date().toISOString().slice(0, 10)}.pdf`}
+              >
+                {({ loading }) => (
+                  <button
+                    className="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800 transition-colors disabled:opacity-50"
+                    disabled={loading}
+                  >
+                    {loading ? 'Gerando PDF...' : 'Gerar Termo de Aviso'}
+                  </button>
+                )}
+              </PDFDownloadLink>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
