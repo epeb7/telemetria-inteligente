@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Vehicle } from '@/../../shared/types';
 import { cn } from '@/lib/utils';
 import { MapView } from './Map';
+import { Bus } from 'lucide-react';
 
 interface VehicleMapProps {
   vehicles: Vehicle[];
@@ -131,7 +132,7 @@ export function VehicleMap({ vehicles, selectedVehicle, onVehicleSelect }: Vehic
                 )}
               >
                 {/* Icon or initial */}
-                <span className="text-lg">🚚</span>
+                <span className="text-lg"><Bus /></span>
               </div>
 
               {/* Tooltip */}
@@ -143,7 +144,7 @@ export function VehicleMap({ vehicles, selectedVehicle, onVehicleSelect }: Vehic
                     {vehicle.speed} km/h
                   </div>
                   <div>
-                    odometer: {vehicle.odometer} km
+                    Odômetro: {vehicle.odometer} km
                   </div>
                 </div>
               )}

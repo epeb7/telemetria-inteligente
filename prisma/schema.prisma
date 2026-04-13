@@ -1,0 +1,409 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["Borr", "public", "tc_janiz"]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model databasechangelog {
+  id            String   @db.VarChar(255)
+  author        String   @db.VarChar(255)
+  filename      String   @db.VarChar(255)
+  dateexecuted  DateTime @db.Timestamp(6)
+  orderexecuted Int
+  exectype      String   @db.VarChar(10)
+  md5sum        String?  @db.VarChar(35)
+  description   String?  @db.VarChar(255)
+  comments      String?  @db.VarChar(255)
+  tag           String?  @db.VarChar(255)
+  liquibase     String?  @db.VarChar(20)
+  contexts      String?  @db.VarChar(255)
+  labels        String?  @db.VarChar(255)
+  deployment_id String?  @db.VarChar(10)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model databasechangeloglock {
+  id          Int
+  locked      Boolean
+  lockgranted DateTime? @db.Timestamp(6)
+  lockedby    String?   @db.VarChar(255)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_actions {
+  id         Int      @default(autoincrement())
+  actiontime DateTime @db.Timestamp(6)
+  address    String?  @db.VarChar(48)
+  userid     Int?
+  actiontype String   @db.VarChar(32)
+  objecttype String?  @db.VarChar(32)
+  objectid   Int?
+  attributes String   @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_attributes {
+  id          Int    @default(autoincrement())
+  description String @db.VarChar(4000)
+  type        String @db.VarChar(128)
+  attribute   String @db.VarChar(128)
+  expression  String @db.VarChar(4000)
+  priority    Int    @default(0)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_calendars {
+  id         Int    @default(autoincrement())
+  name       String @db.VarChar(128)
+  data       Bytes
+  attributes String @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_commands {
+  id          Int     @default(autoincrement())
+  description String  @db.VarChar(4000)
+  type        String  @db.VarChar(128)
+  textchannel Boolean @default(false)
+  attributes  String  @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_commands_queue {
+  id          Int     @default(autoincrement())
+  deviceid    Int
+  type        String  @db.VarChar(128)
+  textchannel Boolean @default(false)
+  attributes  String  @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_attribute {
+  deviceid    Int
+  attributeid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_command {
+  deviceid  Int
+  commandid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_driver {
+  deviceid Int
+  driverid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_geofence {
+  deviceid   Int
+  geofenceid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_maintenance {
+  deviceid      Int
+  maintenanceid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_notification {
+  deviceid       Int
+  notificationid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_order {
+  deviceid Int
+  orderid  Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_device_report {
+  deviceid Int
+  reportid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_devices {
+  id                  Int       @default(autoincrement())
+  name                String    @db.VarChar(128)
+  uniqueid            String    @db.VarChar(128)
+  lastupdate          DateTime? @db.Timestamp(6)
+  positionid          Int?
+  groupid             Int?
+  attributes          String?   @db.VarChar(4000)
+  phone               String?   @db.VarChar(128)
+  model               String?   @db.VarChar(128)
+  contact             String?   @db.VarChar(512)
+  category            String?   @db.VarChar(128)
+  disabled            Boolean?  @default(false)
+  status              String?   @db.Char(8)
+  expirationtime      DateTime? @db.Timestamp(6)
+  motionstate         Boolean?  @default(false)
+  motiontime          DateTime? @db.Timestamp(6)
+  motiondistance      Float?    @default(0)
+  overspeedstate      Boolean?  @default(false)
+  overspeedtime       DateTime? @db.Timestamp(6)
+  overspeedgeofenceid Int?      @default(0)
+  motionstreak        Boolean?  @default(false)
+  calendarid          Int?
+  ent_id              Int?
+  veiculo             String?   @db.Char(10)
+  senhadevice         String?   @db.Char(10)
+  battery             DateTime? @db.Timestamp(6)
+  help_me             DateTime? @db.Timestamp(6)
+  motor_dat           DateTime? @db.Timestamp(6)
+  motor_sit           Int?
+  chip_num            BigInt?
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_drivers {
+  id         Int    @default(autoincrement())
+  name       String @db.VarChar(128)
+  uniqueid   String @db.VarChar(128)
+  attributes String @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_events {
+  id            Int      @default(autoincrement())
+  type          String   @db.VarChar(128)
+  eventtime     DateTime @db.Timestamp(6)
+  deviceid      Int?
+  positionid    Int?
+  geofenceid    Int?
+  attributes    String?  @db.VarChar(4000)
+  maintenanceid Int?
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_geofences {
+  id          Int     @default(autoincrement())
+  name        String  @db.VarChar(128)
+  description String? @db.VarChar(128)
+  area        String  @db.VarChar(4096)
+  attributes  String? @db.VarChar(4000)
+  calendarid  Int?
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_attribute {
+  groupid     Int
+  attributeid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_command {
+  groupid   Int
+  commandid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_driver {
+  groupid  Int
+  driverid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_geofence {
+  groupid    Int
+  geofenceid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_maintenance {
+  groupid       Int
+  maintenanceid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_notification {
+  groupid        Int
+  notificationid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_order {
+  groupid Int
+  orderid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_group_report {
+  groupid  Int
+  reportid Int
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_groups {
+  id         Int     @default(autoincrement())
+  name       String  @db.VarChar(128)
+  groupid    Int?
+  attributes String? @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_keystore {
+  id         Int   @default(autoincrement())
+  publickey  Bytes
+  privatekey Bytes
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_maintenances {
+  id         Int    @default(autoincrement())
+  name       String @db.VarChar(4000)
+  type       String @db.VarChar(128)
+  start      Float  @default(0)
+  period     Float  @default(0)
+  attributes String @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_notifications {
+  id           Int     @default(autoincrement())
+  type         String  @db.VarChar(128)
+  attributes   String? @db.VarChar(4000)
+  always       Boolean @default(false)
+  calendarid   Int?
+  notificators String? @db.VarChar(128)
+  commandid    Int?
+  description  String? @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_orders {
+  id          Int     @default(autoincrement())
+  uniqueid    String  @db.VarChar(128)
+  description String? @db.VarChar(512)
+  fromaddress String? @db.VarChar(512)
+  toaddress   String? @db.VarChar(512)
+  attributes  String  @db.VarChar(4000)
+
+  @@ignore
+  @@schema("public")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tc_positions {
+  id          Int      @default(autoincrement())
+  protocol    String?  @db.VarChar(128)
+  deviceid    Int?
+  servertime  DateTime @default(now()) @db.Timestamp(6)
+  devicetime  DateTime @db.Timestamp(6)
+  fixtime     DateTime @db.Timestamp(6)
+  valid       Boolean
+  latitude    Float
+  longitude   Float
+  altitude    Float
+  speed       Float
+  course      Float
+  address     String?  @db.VarChar(512)
+  attributes  String?  @db.VarChar(4000)
+  accuracy    Float    @default(0)
+  network     String?  @db.VarChar(4000)
+  geofenceids String?  @db.VarChar(128)
+
+  @@ignore
+  @@schema("public")
+}

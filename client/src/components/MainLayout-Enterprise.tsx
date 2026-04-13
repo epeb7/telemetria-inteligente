@@ -1,7 +1,9 @@
+// client/src/components/MainLayout-Enterprise.tsx
 import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Chatbot } from '@/components/Chatbot'; // <-- único acréscimo
 
 interface MainLayoutProps {
   mapComponent: React.ReactNode;
@@ -60,92 +62,97 @@ export function MainLayout({
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col lg:flex-row h-[calc(100vh-200px)] gap-0 overflow-hidden"
-    >
-      {/* Mapa Principal */}
+    <div className="flex flex-col h-[calc(100vh-200px)] overflow-hidden">
       <div
-        className={cn(
-          'flex-1 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden transition-all duration-300',
-          isMinimized ? 'w-full' : 'w-full lg:w-[70%]'
-        )}
+        ref={containerRef}
+        className="flex flex-col lg:flex-row h-full gap-0 overflow-hidden"
       >
-        {mapComponent}
-      </div>
-
-      {/* Divisor Redimensionável (Desktop) */}
-      {!isMinimized && (
+        {/* Mapa Principal */}
         <div
-          onMouseDown={handleMouseDown}
-          className="hidden lg:block w-1 bg-border hover:bg-primary cursor-col-resize transition-colors group"
-          title="Arraste para redimensionar"
-        />
-      )}
-
-      {/* Painel de Controle */}
-      <div
-        className={cn(
-          'flex flex-col bg-card border-l border-border transition-all duration-300 overflow-hidden',
-          isMinimized
-            ? 'hidden lg:flex w-12 hover:w-16'
-            : 'w-full lg:flex-none',
-          !isMinimized && `lg:w-[${panelWidth}%]`
-        )}
-      >
-        {/* Header do Painel */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-secondary/30">
-          {!isMinimized && (
-            <h2 className="text-sm font-semibold text-card-foreground">
-              Painel de Controle
-            </h2>
+          className={cn(
+            'flex-1 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden transition-all duration-300',
+            isMinimized ? 'w-full' : 'w-full lg:w-[70%]'
           )}
+        >
+          {mapComponent}
+        </div>
+
+        {/* Divisor Redimensionável (Desktop) */}
+        {!isMinimized && (
+          <div
+            onMouseDown={handleMouseDown}
+            className="hidden lg:block w-1 bg-border hover:bg-primary cursor-col-resize transition-colors group"
+            title="Arraste para redimensionar"
+          />
+        )}
+
+        {/* Painel de Controle */}
+        <div
+          className={cn(
+            'flex flex-col bg-card border-l border-border transition-all duration-300 overflow-hidden',
+            isMinimized
+              ? 'hidden lg:flex w-12 hover:w-16'
+              : 'w-full lg:flex-none',
+            !isMinimized && `lg:w-[${panelWidth}%]`
+          )}
+        >
+          {/* Header do Painel */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-secondary/30">
+            {!isMinimized && (
+              <h2 className="text-sm font-semibold text-card-foreground">
+                Painel de Controle
+              </h2>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onMinimizeToggle}
+              className="ml-auto"
+              title={isMinimized ? 'Expandir' : 'Minimizar'}
+            >
+              {isMinimized ? (
+                <ChevronLeft className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
+
+          {/* Conteúdo do Painel */}
+          {!isMinimized && (
+            <div className="flex-1 overflow-hidden">
+              {panelComponent}
+            </div>
+          )}
+
+          {/* Ícone quando minimizado */}
+          {isMinimized && (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-xs text-muted-foreground writing-vertical">
+                Painel
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Mobile Toggle Button */}
+        <div className="lg:hidden fixed bottom-6 right-6 z-50">
           <Button
-            variant="ghost"
-            size="sm"
             onClick={onMinimizeToggle}
-            className="ml-auto"
-            title={isMinimized ? 'Expandir' : 'Minimizar'}
+            className="rounded-full w-12 h-12 shadow-lg"
+            title={isMinimized ? 'Mostrar painel' : 'Ocultar painel'}
           >
             {isMinimized ? (
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5" />
             ) : (
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5" />
             )}
           </Button>
         </div>
-
-        {/* Conteúdo do Painel */}
-        {!isMinimized && (
-          <div className="flex-1 overflow-hidden">
-            {panelComponent}
-          </div>
-        )}
-
-        {/* Ícone quando minimizado */}
-        {isMinimized && (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-xs text-muted-foreground writing-vertical">
-              Painel
-            </div>
-          </div>
-        )}
       </div>
 
-      {/* Mobile Toggle Button */}
-      <div className="lg:hidden fixed bottom-6 right-6 z-50">
-        <Button
-          onClick={onMinimizeToggle}
-          className="rounded-full w-12 h-12 shadow-lg"
-          title={isMinimized ? 'Mostrar painel' : 'Ocultar painel'}
-        >
-          {isMinimized ? (
-            <ChevronLeft className="w-5 h-5" />
-          ) : (
-            <ChevronRight className="w-5 h-5" />
-          )}
-        </Button>
-      </div>
+      {/* Chatbot - aparece sobre tudo, sem interferir no layout */}
+      <Chatbot />
     </div>
   );
 }
@@ -192,7 +199,7 @@ export function MainLayoutMobile({
               <ChevronRight className="w-4 h-4" />
             )}
           </Button>
-        </div>
+        </div> 
 
         {!isMinimized && (
           <div className="flex-1 overflow-hidden">
@@ -200,6 +207,9 @@ export function MainLayoutMobile({
           </div>
         )}
       </div>
+
+      {/* Chatbot também no mobile */}
+      <Chatbot />
     </div>
   );
 }

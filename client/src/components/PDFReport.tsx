@@ -449,7 +449,7 @@ function formatDate(date: Date): string {
 // COMPONENTE PDF
 // ============================================================================
 
-const PDFDocument = ({ kpis, topDrivers, eventsByType, vehiclesWithEvents, allEvents = [] }: PDFReportProps) => {
+export const PDFDocument = ({ kpis, topDrivers, eventsByType, vehiclesWithEvents, allEvents = [] }: PDFReportProps) => {
   const totalEvents = eventsByType.hardBrake + eventsByType.hardAcceleration + eventsByType.sharpCurve;
   const currentDate = new Date().toLocaleDateString('pt-BR', {
     day: '2-digit',

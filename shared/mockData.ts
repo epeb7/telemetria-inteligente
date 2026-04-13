@@ -50,7 +50,7 @@ export const mockVehicles: Vehicle[] = [
     odometer: 200000,
     battery: 65,
     lastUpdate: new Date(Date.now() - 5 * 60000),
-    driver: 'Horacio Antonietti',
+    driver: 'Horácio Antonietti',
     driverPhone: '(11) 98765-4323',
     driverEmail: 'horacio.antonietti@email.com',
     route: 'São Paulo - Santos'
@@ -105,7 +105,7 @@ export const mockVehicles: Vehicle[] = [
     battery: 85,
     lastUpdate: new Date(),
     driver: 'Bruno Schiling',
-    driverPhone: '(11) 98765-4326',
+    driverPhone: '(51) 98765-4326',
     driverEmail: 'bruno.schiling@email.com',
     route: 'São Paulo - Jundiaí'
   }

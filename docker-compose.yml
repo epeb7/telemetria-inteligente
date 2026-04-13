@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: telemetria-db
+    environment:
+      POSTGRES_USER: telemetria
+      POSTGRES_PASSWORD: telemetria123
+      POSTGRES_DB: telemetria_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
